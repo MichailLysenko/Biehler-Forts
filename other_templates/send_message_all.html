@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send message to all</title>
+    <form action="{{ url_for('send_message_all') }}" method="post">
+    <input type="text" name="subject" placeholder="Temat wiadomości">
+    <textarea name="message" placeholder="Treść wiadomości"></textarea>
+    <button type="submit">Send message to all participants</button>
+</form>
+</head>
+<body>
+
+</body>
+</html>
+

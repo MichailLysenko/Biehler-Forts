@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+<script>
+function translatePage(language) {
+    fetch(`/translate?lang=${language}`)
+    .then(response => response.json())
+    .then(data => {
+        document.body.innerHTML = data.translated_content;
+    });
+}
+</script>
+
+
+<div class="info">
+    <p>Welcome to Biehler Forts, where history meets modern engagement.</p>
+    <a href = "mailto:biehler.forts@gmail.com?subject=Email%20Subject&body=Email%20Body%20Text">Email to Biehler Forts Project</a>
+</div>
+{% endblock %}

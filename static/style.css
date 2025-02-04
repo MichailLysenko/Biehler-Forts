@@ -1,0 +1,114 @@
+/* styles.css */
+
+/* Centering and Styling Header */
+header {
+    text-align: center;
+    margin: 50px 0;
+}
+
+header h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Styling the Buttons */
+/* Make the buttons significantly larger */
+.btn {
+    display: inline-block;        /* Makes the button behave like an inline element */
+    padding: 12px 24px;           /* Adequate padding for larger buttons */
+    font-size: 16px;              /* Readable font size */
+    font-weight: bold;            /* Bold text */
+    text-align: center;           /* Center text */
+    text-decoration: none;        /* Remove underline for links */
+    border: 2px solid #333;       /* Dark border to fit with the theme */
+    border-radius: 8px;           /* Rounded corners */
+    background-color: #333;       /* Dark background for button */
+    color: #fff;                  /* White text */
+    cursor: pointer;             /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease;  /* Smooth transition */
+}
+
+/* Hover effect - dark mode buttons */
+.btn:hover {
+    background-color: #444;       /* Slightly lighter background when hovered */
+    transform: translateY(-2px);  /* Slight "lift" effect */
+}
+
+/* Focus effect */
+.btn:focus {
+    outline: none;                /* Remove default outline */
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5);  /* Add white glow when focused */
+}
+
+/* Disabled button styling */
+.btn:disabled {
+    background-color: #665;       /* Light gray for disabled button */
+    color: #bbb;                  /* Lighter text */
+    cursor: not-allowed;          /* Disable hover effect */
+}
+
+/* Responsive design for larger screens */
+@media (min-width: 768px) {
+    .btn {
+        font-size: 18px;           /* Increase font size for larger screens */
+        padding: 15px 30px;        /* Increase padding */
+    }
+}
+
+/* Centering the Main Content Vertically */
+main {
+    font-size: 1.5em;           /* Increase the font size */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 5vh;
+}
+
+/* Optional Styling for Footer */
+/*footer {
+    font-size: 1.0em;           /* Increase the font size */
+/*    text-align: center;
+    margin-top: 20px;
+    color: #665;
+}*/
+
+/* Styling for the form container */
+.form-container {
+    display: flex;                  /* Use flexbox to align items */
+    flex-direction: column;          /* Arrange items in a vertical column */
+    gap: 16px;                       /* Space between form elements */
+    width: 100%;                     /* Full width of the container */
+    max-width: 500px;                /* Optional: limit form width */
+    margin: 0 auto;                  /* Center form horizontally */
+    padding: 20px;                   /* Optional: padding around form */
+    background-color: #f4f4f4;       /* Optional: background color */
+    border-radius: 8px;              /* Optional: rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for depth */
+}
+
+/* Styling for form inputs and buttons */
+.form-container input,
+.form-container button {
+    padding: 12px 20px;              /* Add padding to inputs and buttons */
+    font-size: 16px;                 /* Increase font size */
+    border: 1px solid #ccc;          /* Border for input fields */
+    border-radius: 8px;              /* Rounded corners */
+    margin: 0;                        /* Ensure no margin between form fields */
+    width: 100%;                      /* Make inputs and button full width */
+    box-sizing: border-box;          /* Include padding in width calculation */
+}
+
+/* Add some style for the submit button */
+.form-container button {
+    background-color: #007BFF;       /* Button background color */
+    color: #fff;                     /* Button text color */
+    cursor: pointer;                 /* Pointer on hover */
+    border: none;                    /* Remove border */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+.form-container button:hover {
+    background-color: #0056b3;       /* Darker button color on hover */
+}

@@ -1,0 +1,46 @@
+{% extends "main/base.html" %}
+{% block content %}
+<div class="page-content">
+    <h2>Coordinator Dashboard</h2>
+
+    <!-- Formularz dodawania nowego uczestnika -->
+    <form method="POST" action="{{ url_for('auth.coordination') }}">
+        <label for="fortress">Fortress</label>
+        <input type="text" id="fortress" name="fortress" required>
+
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" required>
+
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone_number">Phone Number</label>
+        <input type="text" id="phone_number" name="phone_number" required>
+
+        <label for="additional_info">Additional Info</label>
+        <input type="text" id="additional_info" name="additional_info">
+
+        <button type="submit" class="btn">Submit</button>
+    </form>
+
+    <!-- Lista uczestników i formularze wysyłania wiadomości -->
+    <h3>List of Participants</h3>
+    {% for participant in participants %}
+        <div>
+            <p>{{ participant.first_name }} {{ participant.last_name }} - {{ participant.email }}</p>
+            <form action="{{ url_for('send_email', email=participant.email) }}" method="POST">
+                <label for="subject">Subject:</label>
+                <input type="text" name="subject" id="subject" required>
+                <label for="message">Message:</label>
+                <textarea name="message" id="message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    {% endfor %}
+    <a href="{{ url_for('index') }}" class="btn">Back to Main Menu</a>
+</div>
+{% endblock %}
+

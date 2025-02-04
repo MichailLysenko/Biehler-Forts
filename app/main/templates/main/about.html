@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+     <!-- Przycisk przekierowujący do grupy na Facebooku -->
+    A href=„https://example.cpom"
+
+    <button onclick="window.location.href='https://www.facebook.com/groups/717017268691625'">Our Facebook Group</button>
+    <button onclick="window.location.href='https://www.facebook.com/profile.php?id=100091677889496'">Our Facebook Funpage</button>
+        <!-- Dodaj więcej przycisków dla innych stron -->
+    <button onclick="window.location.href='https://www.fort.torun.pl/127/forty-biehlera-dzieje-i-wspolczesne-uzytkowanie'">First International Conference, Toruń 2018 Poland</button>
+    <button onclick="window.location.href='https://www.fort.torun.pl/141/forty-biehlera-historia-i-wspolczesne-uzytkowanie-kaliningrad-baltijsk-22-27-marca-20'">Second International Conference, Kaliningrad/Baltijsk 2019 Russia</button>
+    <button onclick="window.location.href='https://www.fort.torun.pl/154/trzecia-miedzynarodowa-konferencja-forty-biehlera-historia-i-wspolczesne-uzytkowanie-'">Third International Conference, Ulm/Ingolstadt 2022 Germany</button>
+    <button onclick="window.location.href='https://www.stadtanzeiger-ortenau.de/kehl-stadt/c-lokales/einzigartige-militaergeschichte-erleben-biehler-forts_a86967'">Fourth International Conference, Strasbourg/Kehl 2023 France/Germany</button>
+    <button onclick="window.location.href='https://example.com'">Fifth International Conference, Poznań 2024 Poland</button>
+
+
+<div class="page-content">
+    <h2>About Us</h2>
+    <h3>We look forward to seeing each other soon at Fortress Cologne in Germany from April 8 to 13, 2025.</h3>
+    <p>Welcome to Biehler Forts, where we are dedicated to preserving and promoting the historical significance of fortresses through collaboration, research, and education.</p>
+
+
+
+    <a href="{{ url_for('main.index') }}" class="btn">Back to Main Menu</a>
+</div>
+{% endblock %}
