@@ -4,10 +4,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.models import Participants
 from flask import Blueprint
 from app.auth import auth_bp
-#from app.main import main_bp
-#from dotenv import load_dotenv
 from app.db import db
-#import os
+from flask_mail import Mail, Message
+from flask import current_app
+from app.config import Config
+import os
 
 auth_bp = Blueprint('auth', __name__, template_folder='templates')
 
@@ -106,6 +107,60 @@ def add_user_as_coordinator():
 
     return render_template('main/database.html', participants=Participants, user=current_user)
 
+@auth_bp.route("/send-email", methods=['POST'])
+def send_message_to_all_participants():
+    # List of recipients
+    recipients = ["michail.lysenk@gmail.com"]
+
+    # Creating the message
+    msg = Message("Email to Multiple Recipients",
+                  sender=current_app.config.get('MAIL_DEFAULT_SENDER', current_app.config['MAIL_USERNAME']),
+                  # ✅ Pobiera domyślnego nadawcę
+                  recipients=recipients)
+    msg.body = "Hey, sending you this email from my Flask app, lmk if it works."
+
+
+    # Sending the email
+    with current_app.app_context():
+        mail = Mail()
+        mail.send(msg)
+
+    return "Email sent to multiple recipients!"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+
+# @auth_bp.route("/send-email", methods=["GET", "POST"])
+# @login_required
+# def send_message_to_all_participants():
+#     if request.method == "POST":
+#         # Pobranie treści wiadomości z formularza
+#         message_body = request.form.get("text")
+#
+#         # Pobranie wszystkich uczestników z bazy danych
+#         participants = Participants.query.all()
+#
+#         # Tworzenie listy adresów e-mail
+#         recipients = [p.email for p in participants]
+#
+#         if not recipients:
+#             return "No participants to send emails to!", 400  # Jeśli brak uczestników
+#
+#         # Tworzenie wiadomości
+#         msg = Message("Message to All Participants",
+#                       sender="MAIL_USERNAME",
+#                       recipients=recipients)
+#         msg.body = message_body
+#
+#         # Wysłanie e-maila
+#         mail.send(msg)
+#
+#         return "Email sent to all participants!"
+#
+#     return render_template("main/database.html")  # GET - renderowanie strony
 
 
 @auth_bp.route('/logout')
