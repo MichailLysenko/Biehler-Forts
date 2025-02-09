@@ -504,20 +504,28 @@
 #     app.run(debug=True)
 
 from flask import Flask
+from flask_mail import Mail
+from extensions import mail  # Importujemy mail
+from config import Config  # Importujemy konfigurację
+
+
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from models import db, User, Participants
-from auth import auth as auth_blueprint
-from main import main as main_blueprint
+from extensions import mail
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SECRET_KEY'] = 'your-secret-key'
+mail.init_app(app)
 
 # Inicjalizacja bazy danych
 db.init_app(app)
 migrate = Migrate(app, db)
+
 
 # Flask-Login
 login_manager = LoginManager()
