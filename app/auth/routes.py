@@ -109,23 +109,36 @@ def add_user_as_coordinator():
 
 @auth_bp.route("/send-email", methods=['POST'])
 def send_message_to_all_participants():
+    # Pobieramy wiadomość od użytkownika z formularza
+    message_text = request.form.get("text")
+    if not message_text:  # 👀 Jeśli użytkownik nic nie wpisał
+        flash("Message cannot be empty!", "danger")  # 🚨 Pokaż komunikat
+        return redirect(url_for('auth.send_message_to_all_participants'))
+
     # List of recipients
     recipients = ["michail.lysenk@gmail.com"]
 
     # Creating the message
     msg = Message("Email to Multiple Recipients",
                   sender=current_app.config.get('MAIL_DEFAULT_SENDER', current_app.config['MAIL_USERNAME']),
-                  # ✅ Pobiera domyślnego nadawcę
+                  #  Pobiera domyślnego nadawcę
                   recipients=recipients)
-    msg.body = "Hey, sending you this email from my Flask app, lmk if it works."
-
+    msg.body = message_text
 
     # Sending the email
     with current_app.app_context():
         mail = Mail()
         mail.send(msg)
 
-    return "Email sent to multiple recipients!"
+    flash("Email sent successfully!", "success")  #  Komunikat o sukcesie
+    return redirect(url_for('auth.send_message_to_all_participants'))  #  Możesz zmienić na inną stronę
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
