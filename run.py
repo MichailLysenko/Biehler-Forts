@@ -17,7 +17,7 @@ def create_app():
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'defaultsecretkey')  # Default if not found
     app.config['SQLALCHEMY_DATABASE_URI'] = database_location
     #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['MAIL_SERVER'] = 'smtp.yourmailserver.com'
+    app.config['MAIL_SERVER'] = 'smtp-relay.brevo.com'
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')

@@ -1,3 +1,5 @@
+{% extends "main/base.html" %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -37,18 +39,33 @@
 
     {% if user.coordinator %}
     <h2>Add Participant</h2>
-    <p>FORMULARZ POWINIEN BYĆ WIDOCZNY TUTAJ!</p>
     <form action="{{ url_for('auth.add_user_as_coordinator') }}" method="POST">
+
         <label for="fortress">Fortress:</label>
-        <input type="text" name="first_name" required>
+        <input type="text" name="fortress" required>
+
         <label for="email">Email:</label>
         <input type="email" name="email" required>
+
         <label for="first_name">First Name:</label>
         <input type="text" name="first_name" required>
+
         <label for="last_name">Last Name:</label>
         <input type="text" name="last_name" required>
+
         <button type="submit">Add Participant</button>
     </form>
+
+    <h2>Send message to all participants</h2>
+
+        <label for="text">Message:</label>
+        <textarea name="text" required></textarea>
+        <button type="submit">Send message</button>
+    </form>
+
+</body>
+</html>
     {% endif %}
 </body>
 </html>
+{% endblock %}

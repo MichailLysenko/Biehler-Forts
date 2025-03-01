@@ -9,7 +9,7 @@ msg['Subject'] = 'simple email in python'
 message = 'here is the email'
 msg.attach(MIMEText(message))
 
-mailserver = smtplib.SMTP('smtp-relay.brevo.com',587)   #'smtp.sendgrid.net'
+mailserver = smtplib.SMTP('smtp-relay.brevo.com', 587)   #'smtp.sendgrid.net'
 # identify ourselves to smtp gmail client
 mailserver.ehlo()
 # secure our email with tls encryption

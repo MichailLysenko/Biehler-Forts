@@ -1,14 +1,14 @@
+from flask import Blueprint
+from flask import current_app
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
-from werkzeug.security import check_password_hash, generate_password_hash
-from app.models import Participants
-from flask import Blueprint
-from app.auth import auth_bp
-from app.db import db
 from flask_mail import Mail, Message
-from flask import current_app
-from app.config import Config
-import os
+from werkzeug.security import check_password_hash, generate_password_hash
+from app.auth.forms import FlaskForm
+
+from app.db import db
+from app.models import Participants
+
 
 auth_bp = Blueprint('auth', __name__, template_folder='templates')
 
@@ -104,8 +104,21 @@ def add_user_as_coordinator():
     new_user = Participants(fortress=fortress, email=email, first_name=first_name, last_name=last_name, coordinator=False)
     db.session.add(new_user)
     db.session.commit()
+#***
+    token = generate_reset_token(email)
+    reset_url = url_for('auth.reset_password', token=token, _external=True)
 
-    return render_template('main/database.html', participants=Participants, user=current_user)
+    msg = Message('Welcome! Set Your Password',
+                  sender=current_app.config['MAIL_USERNAME'],
+                  recipients=[email])
+    msg.body = f'Welcome! Click the link to set your password: {reset_url}'
+
+    mail = Mail(current_app)
+    mail.send(msg)
+
+    flash(f'User {email} has been added and received a password reset email.', 'success')
+
+    return render_template('main/database.html', participants=Participants, user=current_user, token=generate_reset_token)
 
 @auth_bp.route("/send-email", methods=['POST'])
 def send_message_to_all_participants():
@@ -131,18 +144,73 @@ def send_message_to_all_participants():
         mail.send(msg)
 
     flash("Email sent successfully!", "success")  #  Komunikat o sukcesie
-    return redirect(url_for('auth.send_message_to_all_participants'))  #  Możesz zmienić na inną stronę
+    return redirect(url_for('main.database'))  #  Możesz zmienić na inną stronę
+
+
+@auth_bp.route('/reset_password', methods=['GET', 'POST'])
+def reset_password_request():
+    if request.method == 'POST':
+        email = request.form['email']
+        user = Participants.query.filter_by(email=email).first()  # Znajdź użytkownika w bazie
+
+        if user:
+            token = user.generate_reset_token()  # Teraz token generuje się na obiekcie User
+            reset_url = url_for('auth.reset_password', token=token, _external=True)
+
+            msg = Message('Password Reset Request', sender='biehler.forts@gmail.com', recipients=[email])
+            msg.body = f'Please click the link to reset your password: {reset_url}'
+
+            mail = Mail()
+            mail.send(msg)
+
+            flash('A password reset link has been sent to your email.', 'info')
+        else:
+            flash('No account found with that email.', 'warning')
+
+        return redirect(url_for('auth.login'))
+
+    return render_template('auth/reset_password_request.html')
+
+
+@auth_bp.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    email = Participants.verify_token(token)  # ✅ Teraz verify_token jest wywoływane poprawnie!
+
+    if not email:
+        flash('The reset link is invalid or has expired.', 'danger')
+        return redirect(url_for('auth.reset_password_request'))  # Poprawiony redirect
+
+    if request.method == 'POST':
+        new_password = request.form['password']
+        user = Participants.query.filter_by(email=email).first()  # Pobieramy użytkownika po emailu
+
+        if user:
+            user.password_hash = generate_password_hash(new_password)
+            db.session.commit()
+            flash('Your password has been updated!', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('User not found.', 'danger')
+
+    return render_template('auth/reset_password.html')
+
+def send_reset_email(user):
+    token = user.generate_reset_token()  # Uzyskiwanie tokenu
+    reset_url = url_for('auth.reset_password', token=token, _external=True)  # Tworzenie URL z tokenem
+
+    msg = Message("Reset your password",
+                  sender=current_app.config['MAIL_USERNAME'],
+                  recipients=[user.email])
+    msg.body = f"Click the link to reset your password: {reset_url}"
+
+    mail = Mail(current_app)
+    mail.send(msg)
 
 
 
-
-
-
-
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+#
+# if __name__ == "__main__":
+#     app.run(debug=True)
 
 
 

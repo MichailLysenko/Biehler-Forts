@@ -27,6 +27,8 @@ header h1 {
     color: #fff;                  /* White text */
     cursor: pointer;             /* Pointer cursor on hover */
     transition: background-color 0.3s ease, transform 0.2s ease;  /* Smooth transition */
+    margin-right: 5px; /* Dodanie odstępu między przyciskami */
+    margin-bottom: 5px; /* Jeśli chcesz mieć odstęp również w pionie */
 }
 
 /* Hover effect - dark mode buttons */
