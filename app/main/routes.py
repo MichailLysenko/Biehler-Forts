@@ -25,4 +25,4 @@ def profile():
 @main_bp.route('/database')
 @login_required
 def database():
-    return render_template('main/database.html', participants=Participants)
+    return render_template('main/database.html', user=current_user)

@@ -57,6 +57,7 @@
     </form>
 
     <h2>Send message to all participants</h2>
+    <form action="{{ url_for('auth.send_message_to_all_participants') }}" method="POST">
 
         <label for="text">Message:</label>
         <textarea name="text" required></textarea>

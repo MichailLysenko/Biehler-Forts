@@ -104,21 +104,8 @@ def add_user_as_coordinator():
     new_user = Participants(fortress=fortress, email=email, first_name=first_name, last_name=last_name, coordinator=False)
     db.session.add(new_user)
     db.session.commit()
-#***
-    token = generate_reset_token(email)
-    reset_url = url_for('auth.reset_password', token=token, _external=True)
 
-    msg = Message('Welcome! Set Your Password',
-                  sender=current_app.config['MAIL_USERNAME'],
-                  recipients=[email])
-    msg.body = f'Welcome! Click the link to set your password: {reset_url}'
-
-    mail = Mail(current_app)
-    mail.send(msg)
-
-    flash(f'User {email} has been added and received a password reset email.', 'success')
-
-    return render_template('main/database.html', participants=Participants, user=current_user, token=generate_reset_token)
+    return render_template('main/database.html', user=current_user)
 
 @auth_bp.route("/send-email", methods=['POST'])
 def send_message_to_all_participants():
@@ -126,7 +113,7 @@ def send_message_to_all_participants():
     message_text = request.form.get("text")
     if not message_text:  # 👀 Jeśli użytkownik nic nie wpisał
         flash("Message cannot be empty!", "danger")  # 🚨 Pokaż komunikat
-        return redirect(url_for('auth.send_message_to_all_participants'))
+        return redirect(url_for('auth.send_message_to_all_participants', user=current_user))
 
     # List of recipients
     recipients = ["michail.lysenk@gmail.com"]

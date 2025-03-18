@@ -25,4 +25,3 @@ You have been added as a participant. Please set your password by clicking the l
 
 If you did not request this, please ignore this email.
 """
-    mail.send(msg)
